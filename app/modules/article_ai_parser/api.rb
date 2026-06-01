@@ -47,7 +47,8 @@ module ArticleAiParser
     end
     post "article_ai_parser" do
       article = ArticleAiParser::Services::ParseArticleService.call(
-        params[:original_content]
+        params[:original_content],
+        user: current_user
       )
       present article, with: ArticleManagement::Serializers::ArticleSerializer
     end

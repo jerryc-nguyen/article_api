@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_01_163539) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_02_013800) do
   create_table "articles", force: :cascade do |t|
     t.string "content_hash"
     t.datetime "created_at", null: false
@@ -20,5 +20,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_01_163539) do
     t.string "status", default: "draft", null: false
     t.string "title", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["user_id"], name: "index_articles_on_user_id"
   end
+
+  create_table "users", force: :cascade do |t|
+    t.string "access_token", null: false
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+    t.index ["access_token"], name: "index_users_on_access_token", unique: true
+    t.index ["name"], name: "index_users_on_name", unique: true
+  end
+
+  add_foreign_key "articles", "users"
 end

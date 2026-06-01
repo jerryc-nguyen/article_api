@@ -46,9 +46,18 @@ module ArticleManagement
     params do
       requires :id, type: Integer, desc: "Article ID"
       optional :title, type: String
-      optional :parsed_fields, type: String
-      optional :original_content, type: String
-      optional :content_hash, type: String
+      optional :intro_hook, type: String
+      optional :main_article_body, type: Array do
+        requires :heading, type: String
+        requires :content, type: String
+      end
+      optional :best_for, type: String
+      optional :not_for, type: String
+      optional :ethics_safety_notes, type: String
+      optional :key_facts, type: Array do
+        requires :label, type: String
+        requires :value, type: String
+      end
     end
     put "article_management/:id" do
       article = ArticleManagement::Services::UpdateArticle.call(

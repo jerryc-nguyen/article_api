@@ -33,12 +33,13 @@ module ArticleAiParser
         - Return ONLY valid JSON, no markdown, no explanation
       PROMPT
 
-      def self.call(original_content, openai_client: OpenAI::Client.new)
-        new(original_content, openai_client: openai_client).call
+      def self.call(original_content, user:, openai_client: OpenAI::Client.new)
+        new(original_content, user: user, openai_client: openai_client).call
       end
 
-      def initialize(original_content, openai_client:)
+      def initialize(original_content, user:, openai_client:)
         @original_content = original_content
+        @user = user
         @openai_client = openai_client
       end
 
@@ -100,6 +101,7 @@ module ArticleAiParser
           parsed_fields: parsed,
           fields_version: FIELDS_VERSION,
           content_hash: content_hash,
+          user: @user,
           status: :draft
         )
       end
