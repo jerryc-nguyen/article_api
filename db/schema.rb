@@ -10,11 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_01_143247) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_01_163539) do
   create_table "articles", force: :cascade do |t|
-    t.text "body"
+    t.string "content_hash"
     t.datetime "created_at", null: false
-    t.string "title"
+    t.integer "fields_version", default: 1, null: false
+    t.text "original_content"
+    t.text "parsed_fields"
+    t.string "status", default: "draft", null: false
+    t.string "title", null: false
     t.datetime "updated_at", null: false
   end
 end

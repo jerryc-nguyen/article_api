@@ -1,9 +1,17 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+draft_article:
+  title: "Komodo Boat Trip Guide"
+  status: draft
+  original_content: "Komodo boat trips usually start from Labuan Bajo."
+  fields_version: 1
 
-one:
-  title: MyString
-  body: MyText
+reviewed_article:
+  title: "Bali Travel Tips"
+  status: reviewed
+  original_content: "Bali is a beautiful island destination."
+  fields_version: 1
 
-two:
-  title: MyString
-  body: MyText
+published_article:
+  title: "Jakarta City Guide"
+  status: published
+  original_content: "Jakarta is the capital of Indonesia."
+  fields_version: 1
