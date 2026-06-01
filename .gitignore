@@ -28,5 +28,10 @@
 # Ignore database configuration in production.
 /config/database.yml
 
+# Ignore environment variables.
+.env
+.env.local
+.env.production
+
 # Ignore test artifacts.
 /coverage/

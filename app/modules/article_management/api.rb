@@ -2,6 +2,23 @@ module ArticleManagement
   class Api < Grape::API
     format :json
 
+    helpers do
+      def current_user
+        @current_user
+      end
+
+      def authenticate!
+        header = headers["Authorization"]
+        token = header&.sub(/\ABearer\s+/, "")
+        @current_user = User.find_by(access_token: token)
+        error!({ error: "Unauthorized" }, 401) unless @current_user
+      end
+    end
+
+    before do
+      authenticate!
+    end
+
     rescue_from ActiveRecord::RecordNotFound do |e|
       error!({ error: e.message }, 404)
     end
