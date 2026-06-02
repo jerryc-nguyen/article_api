@@ -45,10 +45,15 @@ module ArticleAiParser
 
       def call
         validate_content!
-        check_duplicate!
-        response = @openai_client.chat(parameters: chat_parameters)
-        parsed = parse_response(response)
-        create_article!(parsed)
+
+        existing = find_existing
+        if existing
+          create_article!(existing.parsed_fields)
+        else
+          response = @openai_client.chat(parameters: chat_parameters)
+          parsed = parse_response(response)
+          create_article!(parsed)
+        end
       end
 
       private
@@ -64,8 +69,8 @@ module ArticleAiParser
         @content_hash ||= Digest::MD5.hexdigest(@original_content)
       end
 
-      def check_duplicate!
-        raise ActiveRecord::RecordNotUnique, "article with this content already exists" if Article.exists?(content_hash: content_hash)
+      def find_existing
+        Article.find_by(content_hash: content_hash)
       end
 
       def chat_parameters

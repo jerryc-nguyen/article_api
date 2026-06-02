@@ -27,10 +27,6 @@ module ArticleAiParser
       error!({ error: e.message }, 404)
     end
 
-    rescue_from ActiveRecord::RecordNotUnique do |e|
-      error!({ error: e.message }, 409)
-    end
-
     rescue_from RuntimeError do |e|
       error!({ error: e.message }, 502)
     end

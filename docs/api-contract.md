@@ -1,16 +1,14 @@
 # API Contract
 
-**Base URLs:**
-- Auth: `http://localhost:4567/api`
-- Articles & AI Parser: `http://localhost:4567/api/v1`
+**Base URL:** `http://localhost:4567/api/v1`
 
-**Auth:** All endpoints except `POST /api/auth/login` require an `Authorization: Bearer <token>` header.
+**Auth:** All endpoints except `POST /api/v1/auth/login` require an `Authorization: Bearer <token>` header.
 
 ---
 
 ## Auth
 
-### `POST /api/auth/login`
+### `POST /api/v1/auth/login`
 
 Register or login by name. Returns the same token on subsequent calls.
 
@@ -150,11 +148,6 @@ Send raw travel notes, get back a structured draft article.
 { "error": "original_content is required" }
 ```
 
-**Response `409` (duplicate content):**
-```json
-{ "error": "article with this content already exists" }
-```
-
 **Response `502` (OpenAI error):**
 ```json
 {
@@ -171,5 +164,4 @@ Send raw travel notes, get back a structured draft article.
 |--------|------|
 | `401` | `{ "error": "Unauthorized" }` |
 | `404` | `{ "error": "Couldn't find Article..." }` |
-| `409` | `{ "error": "..." }` |
 | `502` | `{ "error": "AI service error: ...", "details": "..." }` |
