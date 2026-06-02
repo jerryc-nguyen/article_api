@@ -56,6 +56,7 @@ module ArticleManagement
         requires :label, type: String
         requires :value, type: String
       end
+      optional :status, type: String, values: %w[draft reviewed published]
     end
     put "article_management/:id" do
       article = current_user.articles.find(params[:id])

@@ -6,7 +6,7 @@ module ArticleManagement
         ethics_safety_notes key_facts
       ].freeze
 
-      DIRECT_FIELDS = %i[title].freeze
+      DIRECT_FIELDS = %i[title status].freeze
 
       def self.call(article_id, params)
         article = Article.find(article_id)
