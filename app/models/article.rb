@@ -11,4 +11,5 @@ class Article < ApplicationRecord
   validates :status, presence: true, inclusion: { in: statuses.keys }
 
   serialize :parsed_fields, coder: JSON
+  serialize :updated_fields, coder: JSON
 end
