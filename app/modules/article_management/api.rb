@@ -1,5 +1,5 @@
 module ArticleManagement
-  class Api < Grape::API
+  class API < Grape::API
     format :json
 
     helpers do
@@ -29,7 +29,7 @@ module ArticleManagement
 
     desc "List all articles"
     get "article_management" do
-      articles = ArticleManagement::Queries::ArticleSearch.call(params)
+      articles = ArticleManagement::Queries::ArticleSearch.call(params, user: current_user)
       present articles, with: ArticleManagement::Serializers::ArticleSerializer
     end
 
@@ -38,7 +38,7 @@ module ArticleManagement
       requires :id, type: Integer, desc: "Article ID"
     end
     get "article_management/:id" do
-      article = Article.find(params[:id])
+      article = current_user.articles.find(params[:id])
       present article, with: ArticleManagement::Serializers::ArticleSerializer
     end
 
@@ -60,11 +60,22 @@ module ArticleManagement
       end
     end
     put "article_management/:id" do
+      article = current_user.articles.find(params[:id])
       article = ArticleManagement::Services::UpdateArticle.call(
-        params[:id],
+        article.id,
         declared(params, include_missing: false)
       )
       present article, with: ArticleManagement::Serializers::ArticleSerializer
+    end
+
+    desc "Delete an article"
+    params do
+      requires :id, type: Integer, desc: "Article ID"
+    end
+    delete "article_management/:id" do
+      article = current_user.articles.find(params[:id])
+      article.destroy!
+      status 204
     end
 
     desc "Change article status"
@@ -73,8 +84,9 @@ module ArticleManagement
       requires :status, type: String, values: %w[draft reviewed published]
     end
     patch "article_management/:id/status" do
+      article = current_user.articles.find(params[:id])
       article = ArticleManagement::Services::ChangeArticleStatus.call(
-        params[:id],
+        article.id,
         params[:status]
       )
       present article, with: ArticleManagement::Serializers::ArticleSerializer

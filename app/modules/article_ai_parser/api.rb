@@ -1,5 +1,5 @@
 module ArticleAiParser
-  class Api < Grape::API
+  class API < Grape::API
     format :json
 
     helpers do

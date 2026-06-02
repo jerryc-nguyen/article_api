@@ -11,12 +11,26 @@ module Auth
 
       def call
         validate!
-        user = User.find_or_create_by!(name: @name)
-        token = JwtEncoder.encode({ username: @name, user_id: user.id })
-        { access_token: token }
+        user = find_or_create_user
+        { access_token: user.access_token }
       end
 
       private
+
+      def find_or_create_user
+        user = User.find_by(name: @name)
+        return user if user
+
+        token = JwtEncoder.encode(user_payload)
+        User.create!(name: @name, access_token: token)
+      end
+
+      def user_payload
+        {
+          username: @name,
+          iat: Time.current.to_i
+        }
+      end
 
       def validate!
         raise ArgumentError, "name is required" if @name.blank?

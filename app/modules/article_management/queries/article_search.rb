@@ -1,8 +1,8 @@
 module ArticleManagement
   module Queries
     class ArticleSearch
-      def self.call(params = {})
-        scope = Article.all
+      def self.call(params = {}, user: nil)
+        scope = user ? user.articles : Article.all
 
         if params[:status].present?
           scope = scope.where(status: params[:status])
