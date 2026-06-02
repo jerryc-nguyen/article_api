@@ -8,8 +8,6 @@ module ArticleManagement
       end
 
       test "writes parsed field edits to updated_fields, not parsed_fields" do
-        original_parsed = @article.parsed_fields
-
         UpdateArticle.call(@article.id, { intro_hook: "Edited hook" })
 
         @article.reload
@@ -33,8 +31,6 @@ module ArticleManagement
       end
 
       test "does not modify parsed_fields when updating title only" do
-        original_parsed = @article.parsed_fields
-
         UpdateArticle.call(@article.id, { title: "New Title" })
 
         @article.reload
