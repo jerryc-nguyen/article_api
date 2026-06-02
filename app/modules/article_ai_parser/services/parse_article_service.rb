@@ -47,7 +47,7 @@ module ArticleAiParser
         validate_content!
 
         existing = find_existing
-        if existing
+        if existing&.parsed_fields
           create_article!(existing.parsed_fields)
         else
           response = @openai_client.chat(parameters: chat_parameters)

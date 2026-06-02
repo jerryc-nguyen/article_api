@@ -1,14 +1,16 @@
 # API Contract
 
-**Base URL:** `http://localhost:4567/api/v1`
+**Base URLs:**
+- Auth: `http://localhost:4567/api`
+- Articles & AI Parser: `http://localhost:4567/api/v1`
 
-**Auth:** All endpoints except `POST /api/v1/auth/login` require an `Authorization: Bearer <token>` header.
+**Auth:** All endpoints except `POST /api/auth/login` require an `Authorization: Bearer <token>` header.
 
 ---
 
 ## Auth
 
-### `POST /api/v1/auth/login`
+### `POST /api/auth/login`
 
 Register or login by name. Returns the same token on subsequent calls.
 
