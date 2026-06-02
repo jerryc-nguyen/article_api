@@ -12,13 +12,13 @@ module ArticleManagement
         article = Article.find(article_id)
         attrs = params.to_h.symbolize_keys
 
-        parsed = (article.parsed_fields || {}).deep_symbolize_keys
+        updates = (article.updated_fields || {}).deep_symbolize_keys
         PARSED_FIELDS.each do |key|
-          parsed[key] = attrs.delete(key) if attrs.key?(key)
+          updates[key] = attrs.delete(key) if attrs.key?(key)
         end
 
         update_attrs = attrs.slice(*DIRECT_FIELDS)
-        update_attrs[:parsed_fields] = parsed if parsed.present?
+        update_attrs[:updated_fields] = updates if updates.present?
 
         article.update!(update_attrs)
         article
