@@ -50,6 +50,7 @@ Returned by list, get, create, update, and status change endpoints.
   "title": "Discover the Magic of Paris",
   "status": "draft",
   "parsed_fields": null,
+  "updated_fields": null,
   "fields_version": 1,
   "original_content": "Paris was amazing...",
   "content_hash": "c16b88f9c02575d0de27aceafaadb126",
@@ -100,15 +101,14 @@ Get a single article.
 
 ### `PUT /api/v1/article_management/:id`
 
-Update article fields.
+Update article fields. Parsed field edits are stored in `updated_fields`, not `parsed_fields`.
 
 **Request:** All fields optional.
 ```json
 {
   "title": "New Title",
-  "parsed_fields": "{...}",
-  "original_content": "Updated text",
-  "content_hash": "abc123"
+  "intro_hook": "Edited intro",
+  "best_for": "solo travelers"
 }
 ```
 
@@ -144,6 +144,8 @@ Send raw travel notes, get back a structured draft article.
 ```
 
 **Response `200`:** Article object with full `parsed_fields`.
+
+Duplicate content (same `content_hash`) does not call OpenAI — it reuses the existing article's `parsed_fields` and creates a new article record. No error is raised.
 
 **Response `400` (validation):**
 ```json
