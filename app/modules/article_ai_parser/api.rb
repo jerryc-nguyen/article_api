@@ -1,7 +1,5 @@
 module ArticleAiParser
-  class API < Grape::API
-    format :json
-
+  class API < BaseAPI
     helpers do
       def current_user
         @current_user

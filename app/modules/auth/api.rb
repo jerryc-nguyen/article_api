@@ -1,7 +1,5 @@
 module Auth
-  class API < Grape::API
-    format :json
-
+  class API < BaseAPI
     rescue_from ArgumentError do |e|
       error!({ error: e.message }, 400)
     end
